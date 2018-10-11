@@ -2,8 +2,8 @@ var Curso = require('./models/curso');
 
 exports.getCurso = function(req, res) {
     // CORS
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:4200');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 
     Curso.find(function(err, curso) {
         if (err) res.send(err);    
@@ -13,6 +13,10 @@ exports.getCurso = function(req, res) {
 }
 
 exports.setCurso = function(req, res) {
+    // CORS
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+
     Curso.create({
         nombre: req.body.nombre
     }, 
@@ -21,7 +25,9 @@ exports.setCurso = function(req, res) {
             res.send(err)
         }
 
-        Curso.find(function(err, curso) {
+        Curso.findOne({'nombre': curso.nombre}, function(err, curso) {
+            console.log(curso);
+            
             if (err) {
                 res.send(err)                
             }
